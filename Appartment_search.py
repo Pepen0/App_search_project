@@ -2,11 +2,22 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 import time
+
+# Excel variable
 import pandas as pd
 
+Excel_path = "/Users/penoelothibeaud/Desktop/projet/Software engineering/Personal project/Appartment condition check/App_search_project/Appartment_database_template.xlsx"
+Criteria_sheet_title = "Criteria"
+reading_engine = "openpyxl"
+Row_to_skip = 0
+Collumn_to_read = "B"
+
+
+# webdriver variable
+
+# Search_Appart_bot = webdriver.Chrome()
 listing_counter = 0
 max_listing = 0
-
 
 # criteria
 
@@ -61,6 +72,23 @@ def extract_criteria_from_excel():
     print(
         "extracting Location,goal,Type,max_price,minimum_bedroom,minimum_bathroom,number_of_listing_goal from the excel file"
     )
+
+    Criteria_list = pd.read_excel(
+        Excel_path,
+        usecols=Collumn_to_read,
+        skiprows=Row_to_skip,
+        engine=reading_engine,
+        sheet_name=Criteria_sheet_title,
+    )
+
+    Location = Criteria_list.iloc[0, 0]
+    goal = Criteria_list.iloc[1, 0]
+    Type = Criteria_list.iloc[2, 0]
+    max_price = Criteria_list.iloc[3, 0]
+    minimum_bedroom = Criteria_list.iloc[4, 0]
+    minimum_bathroom = Criteria_list.iloc[5, 0]
+    number_of_listing_goal = Criteria_list.iloc[6, 0]
+    Proximity_to = Criteria_list.iloc[7, 0]
 
 
 def find_total_page():
