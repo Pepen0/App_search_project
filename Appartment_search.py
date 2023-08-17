@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.support.ui import Select
 import time
 
 # Excel variable
@@ -15,7 +16,7 @@ Collumn_to_read = "B"
 
 # webdriver variable
 
-# Search_Appart_bot = webdriver.Chrome()
+Search_Appart_bot = webdriver.Chrome()
 listing_counter = 0
 max_listing = 0
 
@@ -81,6 +82,15 @@ def extract_criteria_from_excel():
         sheet_name=Criteria_sheet_title,
     )
 
+    global Location
+    global goal
+    global Type
+    global max_price
+    global minimum_bedroom
+    global minimum_bathroom
+    global number_of_listing_goal
+    global Proximity_to
+
     Location = Criteria_list.iloc[0, 0]
     goal = Criteria_list.iloc[1, 0]
     Type = Criteria_list.iloc[2, 0]
@@ -91,27 +101,56 @@ def extract_criteria_from_excel():
     Proximity_to = Criteria_list.iloc[7, 0]
 
 
+def fill_search_page():
+    print("entering info in page")
+
+    Search_Appart_bot.find_element(
+        By.XPATH,
+        "//input[@placeholder='Search by City, Neighbourhood, Region, Address or Centris N°']",
+    ).send_keys(Location)
+
+    time.sleep(5)
+
+    Search_Appart_bot.find_element(
+        By.XPATH,
+        "//input[@placeholder='Search by City, Neighbourhood, Region, Address or Centris N°']",
+    ).send_keys(Keys.ENTER)
+
+    time.sleep(5)
+
+    # Search_Appart_bot.find_element(
+    #     By.XPATH, "//span[@id='select2-u0o3-container']"
+    # ).click
+
+    # Select(
+    #     Search_Appart_bot.find_element(By.CSS_SELECTOR, "#select2-u0o3-container")
+    # ).select_by_value(Type)
+
+    time.sleep(5)
+
+
 def find_total_page():
     print("finding the number of option that match the search ")
     return
 
 
 def run_search():
-    print("adjusting search based on criteria")
+    print("adjusting search in " + Search_Appart_bot.title + " based on criteria")
+
     max_listing = find_total_page()
 
-    if max_listing >= number_of_listing_goal:
-        # run the loop till listing goal
-        for i in range(number_of_listing_goal):
-            visit_option(i)
+    # if max_listing >= number_of_listing_goal:
+    #     # run the loop till listing goal
+    #     for i in range(number_of_listing_goal):
+    #         visit_option(i)
 
-        return
+    #     return
 
-    # else run loop till max listing since we cant reach the listing goal
-    print("Only " + max_listing + " valid option(s) ")
+    # # else run loop till max listing since we cant reach the listing goal
+    # print("Only " + max_listing + " valid option(s) ")
 
-    for i in range(max_listing):
-        visit_option(i)
+    # for i in range(max_listing):
+    #     visit_option(i)
 
 
 def visit_option(x):
@@ -142,6 +181,12 @@ def run_program():
     print("starting the program")
 
     extract_criteria_from_excel()
+
+    Search_Appart_bot.get("https://www.centris.ca/en")
+
+    time.sleep(3)
+
+    fill_search_page()
 
     # run_search()
 
