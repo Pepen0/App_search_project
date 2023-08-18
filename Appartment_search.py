@@ -109,7 +109,7 @@ def fill_search_page():
         "//input[@placeholder='Search by City, Neighbourhood, Region, Address or Centris N°']",
     ).send_keys(Location)
 
-    time.sleep(5)
+    time.sleep(2)
 
     Search_Appart_bot.find_element(
         By.XPATH,
@@ -118,13 +118,15 @@ def fill_search_page():
 
     time.sleep(5)
 
-    # Search_Appart_bot.find_element(
-    #     By.XPATH, "//span[@id='select2-u0o3-container']"
-    # ).click
+    # Click on the Select2 dropdown to expand it
+    select2_container = Search_Appart_bot.find_element(
+        By.CSS_SELECTOR, ".select2-selection.select2-selection--single"
+    )
+    select2_container.click()
 
-    # Select(
-    #     Search_Appart_bot.find_element(By.CSS_SELECTOR, "#select2-u0o3-container")
-    # ).select_by_value(Type)
+    # Select the "For sale" option
+    option = Search_Appart_bot.find_element(By.XPATH, '//option[text()="For rent"]')
+    option.click()
 
     time.sleep(5)
 
@@ -189,6 +191,8 @@ def run_program():
     fill_search_page()
 
     # run_search()
+
+    Search_Appart_bot.quit()
 
 
 run_program()
