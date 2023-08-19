@@ -112,6 +112,8 @@ def fill_search_page():
     global price_slider
     global min_price
     global max_price
+    global minimum_bedroom
+    global minimum_bathroom
 
     print("entering info in page")
 
@@ -141,7 +143,7 @@ def fill_search_page():
     time.sleep(1)
 
     Type_option = Search_Appart_bot.find_element(
-        By.XPATH, '//option[text()="For rent"]'
+        By.XPATH, '//option[text()="' + Type + '"]'
     )
     Type_option.click()
 
@@ -199,7 +201,7 @@ def fill_search_page():
 
     closest_max_price = min(price_slider, key=lambda x: abs(x - max_price))
 
-    time.sleep(5)
+    time.sleep(2)
 
     lower_bound = int(
         Min_price_option.get_attribute("value").replace("$", "").replace(",", "")
@@ -224,7 +226,7 @@ def fill_search_page():
             .replace("+", "")
         )
 
-        time.sleep(0.05)
+        time.sleep(0.001)
 
         upper_bound_slide = Search_Appart_bot.find_element(
             By.XPATH,
@@ -247,26 +249,95 @@ def fill_search_page():
             ).release().perform()
             print("<")
 
-        print(
-            str(closest_min_price)
-            + " "
-            + str(closest_max_price)
-            + " "
-            + str(price_slider[0])
-            + " "
-            + str(price_slider[48])
-            + " "
-            + str(lower_bound)
-            + " "
-            + str(upper_bound)
-        )
+        # print(
+        #     str(closest_min_price)
+        #     + " "
+        #     + str(closest_max_price)
+        #     + " "
+        #     + str(price_slider[0])
+        #     + " "
+        #     + str(price_slider[48])
+        #     + " "
+        #     + str(lower_bound)
+        #     + " "
+        #     + str(upper_bound)
+        # )
 
     print("good selection")
+
+    # will apply the price restiction
 
     apply_price = Search_Appart_bot.find_element(
         By.XPATH, '//*[@id="RentPrice-collapse"]/div[2]/div/div/button[2]'
     )
     apply_price.click()
+
+    time.sleep(1)
+
+    open_filter = Search_Appart_bot.find_element(
+        By.XPATH, "//span[normalize-space()='Filters']"
+    )
+    open_filter.click()
+
+    time.sleep(1)
+
+    feature_select = Search_Appart_bot.find_element(
+        By.XPATH, '//*[@id="FeaturesSection-heading-filters"]/h2/button'
+    )
+    feature_select.click()
+
+    time.sleep(1)
+
+    Bedroom_select = Search_Appart_bot.find_element(
+        By.XPATH, '//*[@id="Rooms"]/span/span[1]'
+    )
+    Bedroom_select.click()
+
+    if minimum_bedroom == 1:
+        minimum_bedroom_select = Search_Appart_bot.find_element(
+            By.XPATH, "//li[@id='select2-b88j-result-bvj3-" + minimum_bedroom + "+']"
+        )
+
+    if minimum_bedroom >= 5:
+        minimum_bedroom = 5
+        minimum_bedroom_select = Search_Appart_bot.find_element(
+            By.XPATH, "//li[@id='select2-b88j-result-bvj3-" + minimum_bedroom + "+']"
+        )
+
+    if minimum_bedroom != 1 or minimum_bedroom != 5:
+        minimum_bedroom_select = Search_Appart_bot.find_element(
+            By.XPATH, "//li[@id='select2-b88j-result-bvj3-3+']"
+        )
+
+    minimum_bedroom_select.click()
+
+    time.sleep(1)
+
+    Bathroom_select = Search_Appart_bot.find_element(
+        By.XPATH, '//*[@id="BathPowderRooms"]/span/span[1]'
+    )
+    Bathroom_select.click()
+
+    if minimum_bathroom == 1:
+        minimum_bathroom_select = Search_Appart_bot.find_element(
+            By.XPATH,
+            "//li[@id='select2-0osg-result-w4tt-" + str(minimum_bathroom) + "+']",
+        )
+
+    if minimum_bathroom >= 5:
+        minimum_bedroom = 5
+        minimum_bathroom_select = Search_Appart_bot.find_element(
+            By.XPATH,
+            "//li[@id='select2-0osg-result-w4tt-" + str(minimum_bathroom) + "+']",
+        )
+
+    if minimum_bathroom != 1 or minimum_bathroom != 5:
+        minimum_bathroom_select = Search_Appart_bot.find_element(
+            By.XPATH,
+            "//li[@id='select2-0osg-result-w4tt-" + str(minimum_bathroom) + "+']",
+        )
+
+    minimum_bathroom_select.click()
 
     time.sleep(5)
 
