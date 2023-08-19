@@ -213,7 +213,7 @@ def fill_search_page():
 
     timer = time.time()
 
-    while (lower_bound != closest_min_price) or (upper_bound != closest_max_price):
+    while (lower_bound < closest_min_price) or (upper_bound > closest_max_price):
         lower_bound = int(
             Min_price_option.get_attribute("value").replace("$", "").replace(",", "")
         )
@@ -223,17 +223,27 @@ def fill_search_page():
             .replace(",", "")
             .replace("+", "")
         )
-        time.sleep(1)
+
+        time.sleep(0.05)
+
+        upper_bound_slide = Search_Appart_bot.find_element(
+            By.XPATH,
+            '//*[@id="RentPrice"]/div[1]/div[1]/div[6]',
+        )
+        lower_bound_slide = Search_Appart_bot.find_element(
+            By.XPATH,
+            '//*[@id="RentPrice"]/div[1]/div[1]/div[5]',
+        )
 
         if int(lower_bound) < closest_min_price:
             action_to_do.click_and_hold(lower_bound_slide).move_by_offset(
-                100, 0
+                5, 0
             ).release().perform()
             print(">")
 
         if int(upper_bound) > closest_max_price:
             action_to_do.click_and_hold(upper_bound_slide).move_by_offset(
-                -100, 0
+                -5, 0
             ).release().perform()
             print("<")
 
@@ -244,7 +254,7 @@ def fill_search_page():
             + " "
             + str(price_slider[0])
             + " "
-            + str(price_slider[46])
+            + str(price_slider[48])
             + " "
             + str(lower_bound)
             + " "
@@ -252,6 +262,11 @@ def fill_search_page():
         )
 
     print("good selection")
+
+    apply_price = Search_Appart_bot.find_element(
+        By.XPATH, '//*[@id="RentPrice-collapse"]/div[2]/div/div/button[2]'
+    )
+    apply_price.click()
 
     time.sleep(5)
 
