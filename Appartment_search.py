@@ -293,20 +293,25 @@ def fill_search_page():
     )
     Bedroom_select.click()
 
+    time.sleep(1)
+
     if minimum_bedroom == 1:
         minimum_bedroom_select = Search_Appart_bot.find_element(
-            By.XPATH, "//li[@id='select2-b88j-result-bvj3-" + minimum_bedroom + "+']"
+            By.XPATH,
+            '//option[text()="' + str(minimum_bedroom) + ' bedrooms or +"]',
         )
 
     if minimum_bedroom >= 5:
         minimum_bedroom = 5
         minimum_bedroom_select = Search_Appart_bot.find_element(
-            By.XPATH, "//li[@id='select2-b88j-result-bvj3-" + minimum_bedroom + "+']"
+            By.XPATH,
+            '//option[text()="' + str(minimum_bedroom) + ' bedrooms or +"]',
         )
 
-    if minimum_bedroom != 1 or minimum_bedroom != 5:
+    if minimum_bedroom != 1 or minimum_bedroom != 5 or minimum_bedroom != 0:
         minimum_bedroom_select = Search_Appart_bot.find_element(
-            By.XPATH, "//li[@id='select2-b88j-result-bvj3-3+']"
+            By.XPATH,
+            '//option[text()="' + str(minimum_bedroom) + ' bedrooms or +"]',
         )
 
     minimum_bedroom_select.click()
@@ -318,62 +323,76 @@ def fill_search_page():
     )
     Bathroom_select.click()
 
+    time.sleep(1)
+
     if minimum_bathroom == 1:
         minimum_bathroom_select = Search_Appart_bot.find_element(
             By.XPATH,
-            "//li[@id='select2-0osg-result-w4tt-" + str(minimum_bathroom) + "+']",
+            '//option[text()="' + str(minimum_bathroom) + ' bath/powder rooms or +"]',
         )
 
     if minimum_bathroom >= 5:
         minimum_bedroom = 5
         minimum_bathroom_select = Search_Appart_bot.find_element(
             By.XPATH,
-            "//li[@id='select2-0osg-result-w4tt-" + str(minimum_bathroom) + "+']",
+            '//option[text()="' + str(minimum_bathroom) + ' bath/powder rooms or +"]',
         )
 
-    if minimum_bathroom != 1 or minimum_bathroom != 5:
+    if minimum_bathroom != 1 or minimum_bathroom != 5 or minimum_bathroom != 0:
         minimum_bathroom_select = Search_Appart_bot.find_element(
             By.XPATH,
-            "//li[@id='select2-0osg-result-w4tt-" + str(minimum_bathroom) + "+']",
+            '//option[text()="' + str(minimum_bathroom) + ' bath/powder rooms or +"]',
         )
 
     minimum_bathroom_select.click()
 
-    time.sleep(5)
+    time.sleep(1)
 
+    launch_search = Search_Appart_bot.find_element(
+        By.ID, "js-home-button-search-container"
+    )
+    launch_search.click()
 
-def find_total_page():
-    print("finding the number of option that match the search ")
-    return
+    time.sleep(2)
 
 
 def run_search():
-    print("adjusting search in " + Search_Appart_bot.title + " based on criteria")
+    global max_listing
 
-    max_listing = find_total_page()
+    print(
+        "looking at the search result in "
+        + Search_Appart_bot.title
+        + " based on criteria"
+    )
+    time.sleep(5)
+    max_listing_finder = Search_Appart_bot.find_element(
+        By.XPATH, "(//span[@class='resultCount'])[1]"
+    )
 
-    # if max_listing >= number_of_listing_goal:
-    #     # run the loop till listing goal
-    #     for i in range(number_of_listing_goal):
-    #         visit_option(i)
+    max_listing = int(max_listing_finder.get_attribute("textContent"))
 
-    #     return
+    print("Total listing :" + str(max_listing))
 
-    # # else run loop till max listing since we cant reach the listing goal
-    # print("Only " + max_listing + " valid option(s) ")
+    time.sleep(5)
 
-    # for i in range(max_listing):
-    #     visit_option(i)
+    if max_listing >= number_of_listing_goal:
+        # run the loop till listing goal
+        for i in range(number_of_listing_goal):
+            visit_option(i)
+
+        return
+
+    # else run loop till max listing since we cant reach the listing goal
+    print("Only " + max_listing + " valid option(s) ")
+
+    for i in range(max_listing):
+        visit_option(i)
 
 
 def visit_option(x):
-    print("looping trought option number " + x)
+    print("looping trought option number " + str(x))
     listing_counter = x
-
-    Collect_info()
-    proccess_with_GPT()
-
-    transfer_to_excel()
+    # create and open excel file copy and save the links in there
 
 
 def Collect_info():
@@ -402,6 +421,11 @@ def run_program():
     fill_search_page()
 
     run_search()
+
+    Collect_info()
+    proccess_with_GPT()
+
+    transfer_to_excel()
 
     Search_Appart_bot.quit()
 
