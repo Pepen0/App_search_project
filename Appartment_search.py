@@ -397,7 +397,7 @@ def visit_option(x):
 
 def Collect_info():
     print(
-        "openning option " + listing_counter + "option address"
+        "openning option " + str(listing_counter) + "option address"
     )  # make it print the proper adress
 
 
