@@ -17,7 +17,7 @@ Collumn_to_read = "B"
 
 # webdriver variable
 
-Search_Appart_bot = webdriver.Chrome()
+Search_Appart_bot = webdriver.Firefox()
 listing_counter = 0
 max_listing = 0
 price_slider = []
