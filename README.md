@@ -2,7 +2,7 @@
 
 Hello, I'm an engineering student and this is a project I've been working on to automate the search for apartments using Selenium and Python. The idea is to extract criteria from an Excel file, search for apartments on a property listing site, and then analyze the results using various APIs.
 
-## Current Functionality
+## Functionalities
 
 ### Criteria Extraction:
 
@@ -19,52 +19,7 @@ Hello, I'm an engineering student and this is a project I've been working on to 
 > The system initiates the search based on the entered criteria.
 > 
 
-## Potential Missing Parts & Future Work
 
-### Search Completion:
-
-> Implement functionality to trigger and complete the search after entering all criteria.
-> 
-
-### Pagination Handling:
-
-> Navigate through multiple pages of search results, if available.
-> 
-
-### Data Extraction:
-
-> Extract property details such as price, location, amenities, and more from the search results.
-> 
-
-### Google Maps Integration:
-
-> Integrate with the Google Maps API to fetch location-related details for each property.
-> 
-
-### ChatGPT Integration:
-
-> Analyze property descriptions using ChatGPT or similar APIs to extract more insights.
-> 
-
-### Data Storage:
-
-> Save the extracted property details to a database or another Excel file.
-> 
-
-### Error Handling:
-
-> Implement mechanisms to handle scenarios like no results found, CAPTCHA challenges, or unexpected website layout changes.
-> 
-
-### Notifications:
-
-> Implement a system to notify users about the results or any issues encountered during the search.
-> 
-
-### Code Modularity:
-
-> Implement the code in multiple sub-component instead of a single super code block
-> 
 
 ## Getting Started
 
