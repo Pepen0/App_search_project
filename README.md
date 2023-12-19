@@ -61,6 +61,11 @@ Hello, I'm an engineering student and this is a project I've been working on to 
 > Implement a system to notify users about the results or any issues encountered during the search.
 > 
 
+### Code Modularity:
+
+> Implement the code in multiple sub-component instead of a single super code block
+> 
+
 ## Getting Started
 
 1. Lookup the [GitHub](https://github.com/Pepen0/App_search_project/tree/main)
